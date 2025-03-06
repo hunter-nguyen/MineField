@@ -1,5 +1,7 @@
 package mvc;
 
-public abstract class Model {
+import java.io.Serializable;
+
+public abstract class Model extends Publisher implements Serializable{
 
 }
