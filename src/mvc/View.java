@@ -20,8 +20,7 @@ public class View extends JPanel implements Subscriber{
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        repaint();
     }
 
 }

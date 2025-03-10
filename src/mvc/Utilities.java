@@ -1,10 +1,9 @@
 package mvc;
 
-import java.awt.event.*;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Random;
-import javax.swing.*;
 
 public class Utilities {
 
@@ -25,6 +24,11 @@ public class Utilities {
         JOptionPane.showMessageDialog(null,info);
     }
 
+    // tells user some info
+    public static void inform(String info, String title) {
+        JOptionPane.showMessageDialog(null,info, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
     // tells user a lot of info
     public static void inform(String[] items) {
         String helpString = "";
@@ -32,6 +36,11 @@ public class Utilities {
             helpString = helpString + "\n" + items[i];
         }
         inform(helpString);
+    }
+
+    // tells user a lot of info
+    public static void inform(String[] items, String title) {
+        inform(items, title);
     }
 
     // tells user about an error
@@ -59,6 +68,30 @@ public class Utilities {
         }
     }
 
+    /**
+     * Confirms whether the user wants to continue, save changes or leave unsaved changes
+     * @param model The model to save
+     * @return Whether to continue
+     */
+    public static boolean confirmSaveChanges(Model model) {
+        if (!model.getUnsavedChanges()) return true;
+
+        int result = JOptionPane.showConfirmDialog(null, "Current model has unsaved changes, Save?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+
+        switch (result) {
+            case JOptionPane.CANCEL_OPTION:
+                return false;
+
+            case JOptionPane.YES_OPTION:
+                Utilities.save(model, false);
+            case JOptionPane.NO_OPTION:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
     // asks user for a file name
     public static String getFileName(String fName, Boolean open) {
         JFileChooser chooser = new JFileChooser();
@@ -82,10 +115,11 @@ public class Utilities {
     }
 
     // save model
-    public static void save(Model model, Boolean saveAs) {
+    public static boolean save(Model model, Boolean saveAs) {
         String fName = model.getFileName();
         if (fName == null || saveAs) {
             fName = getFileName(fName, false);
+            if (fName == null) return false;
             model.setFileName(fName);
         }
         try {
@@ -93,16 +127,19 @@ public class Utilities {
             model.setUnsavedChanges(false);
             os.writeObject(model);
             os.close();
+            return true;
         } catch (Exception err) {
             model.setUnsavedChanges(true);
             Utilities.error(err);
         }
+        return false;
     }
 
     // open model
     public static Model open(Model model) {
-        saveChanges(model);
+        if (!confirmSaveChanges(model)) return null;
         String fName = getFileName(model.getFileName(), true);
+        if (fName == null) return null;
         Model newModel = null;
         try {
             ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
