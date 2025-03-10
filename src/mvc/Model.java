@@ -11,7 +11,7 @@ public abstract class Model extends Publisher implements Serializable{
         notifySubscribers();
     }
 
-    public boolean hasUnsavedChanges() {
+    public boolean getUnsavedChanges() {
         return unsavedChanges;
     }
 
