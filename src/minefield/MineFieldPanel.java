@@ -1,5 +1,11 @@
 package minefield;
 
-public class MineFieldPanel {
-    
+import mvc.AppFactory;
+import mvc.AppPanel;
+
+public class MineFieldPanel extends AppPanel {
+
+    public MineFieldPanel(AppFactory factory) {
+        super(factory);
+    }
 }
