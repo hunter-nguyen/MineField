@@ -31,7 +31,6 @@ public class MoveCommand extends Command {
             case EAST -> {
                 deltaX = 1;
             }
-
             case NORTH_WEST -> {
                 deltaY = -1;
                 deltaX = -1;
@@ -48,21 +47,9 @@ public class MoveCommand extends Command {
                 deltaY = 1;
                 deltaX = 1;
             }
-
             default -> throw new Exception("Invalid direction");
         }
 
         field.move(deltaX, deltaY);
     }
-}
-
-enum Heading {
-    NORTH,
-    SOUTH,
-    WEST,
-    EAST,
-    NORTH_EAST,
-    NORTH_WEST,
-    SOUTH_WEST,
-    SOUTH_EAST
 }
