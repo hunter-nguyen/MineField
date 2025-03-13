@@ -10,17 +10,24 @@ public class MineField extends Model {
 
     public MineField() {
         super();
-        field = new Plot[20][20];
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                field[i][j] = new Plot();
-            }
-        }
+        initializeField(20, 20);
         placeBombs(field);
     }
 
     public void move(int deltaX, int deltaY) throws Exception {
         changed();
+    }
+
+    public void initializeField(int row, int col){
+        field = new Plot[row][col];
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                field[i][j] = new Plot();
+            }
+        }
+
+        field[0][0].setIsVisited();
+        field[row-1][col-1].setIsGoal();
     }
 
     public void placeBombs(Plot[][]field){
@@ -32,7 +39,7 @@ public class MineField extends Model {
             int row = rand.nextInt(20);
             int col = rand.nextInt(20);
             
-            if(!field[row][col].hasBomb()){
+            if(!field[row][col].hasBomb() && !(row == 0 && col == 0)){
                 field[row][col].setHasBomb();
                 System.out.println("There is a bomb at row: " + row + " and col " +  col);
                 bombs--;
@@ -52,9 +59,14 @@ public class MineField extends Model {
         return row >= 0 && row < field.length && col >= 0 && col < field[0].length;
     }
 
-    public static void main(String[] args) {
-        MineField mf = new MineField();
+    public Plot[][] getField(){
+        return field;
     }
+
+
+    // public static void main(String[] args) {
+    //     MineField mf = new MineField();
+    // }
 
     
 }
