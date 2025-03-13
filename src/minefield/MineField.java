@@ -39,7 +39,7 @@ public class MineField extends Model {
             int row = rand.nextInt(20);
             int col = rand.nextInt(20);
             
-            if(!field[row][col].hasBomb() && !(row == 0 && col == 0)){
+            if(!field[row][col].hasBomb() && !(row == 0 && col == 0) && !(row == field.length && col == field[0].length)){
                 field[row][col].setHasBomb();
                 System.out.println("There is a bomb at row: " + row + " and col " +  col);
                 bombs--;
