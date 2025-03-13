@@ -23,8 +23,8 @@ public class Plot {
         return isVisited;
     }
 
-    public void setAdjacentBombs(int newAdjacentBombs){
-        bombsAdjacent = newAdjacentBombs;
+    public void addAdjacentBomb(){
+        bombsAdjacent++;
     }
 
     public void setHasBomb(){
