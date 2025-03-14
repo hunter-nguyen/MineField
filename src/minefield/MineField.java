@@ -1,16 +1,17 @@
 package minefield;
 
 import mvc.Model;
-import java.util.*;
+import mvc.Utilities;
 
 public class MineField extends Model {
+    public static final int FIELD_LENGTH = 20;
 
     private Plot[][] field;
     private int bombs;
 
     public MineField() {
         super();
-        initializeField(20, 20);
+        initializeField(FIELD_LENGTH, FIELD_LENGTH);
         placeBombs(field);
     }
 
@@ -18,28 +19,27 @@ public class MineField extends Model {
         changed();
     }
 
-    public void initializeField(int row, int col){
-        field = new Plot[row][col];
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
+    public void initializeField(int rows, int cols){
+        field = new Plot[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 field[i][j] = new Plot();
             }
         }
 
         field[0][0].setIsVisited();
-        field[row-1][col-1].setIsGoal();
+        field[rows-1][cols-1].setIsGoal();
     }
 
     public void placeBombs(Plot[][]field){
-        Random rand = new Random();
         int totalTiles = field.length * field[0].length;
-        bombs = (totalTiles/100) * 20;
+        bombs = (int) ((totalTiles/100.0) * 20);
 
         while(bombs > 0){
-            int row = rand.nextInt(20);
-            int col = rand.nextInt(20);
-            
-            if(!field[row][col].hasBomb() && !(row == 0 && col == 0) && !(row == field.length && col == field[0].length)){
+            int row = Utilities.rng.nextInt(FIELD_LENGTH);
+            int col = Utilities.rng.nextInt(FIELD_LENGTH);
+
+            if(!field[row][col].hasBomb() && !(row == 0 && col == 0) && !(row == FIELD_LENGTH-1 && col == FIELD_LENGTH-1)){
                 field[row][col].setHasBomb();
                 System.out.println("There is a bomb at row: " + row + " and col " +  col);
                 bombs--;
@@ -52,7 +52,7 @@ public class MineField extends Model {
                     }
                 }
             }
-        }   
+        }
     }
 
     private boolean isValid(int row, int col) {
@@ -62,11 +62,4 @@ public class MineField extends Model {
     public Plot[][] getField(){
         return field;
     }
-
-
-    // public static void main(String[] args) {
-    //     MineField mf = new MineField();
-    // }
-
-    
 }

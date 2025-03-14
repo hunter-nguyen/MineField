@@ -83,7 +83,7 @@ public class Utilities {
                 return false;
 
             case JOptionPane.YES_OPTION:
-                Utilities.save(model, false);
+                return Utilities.save(model, false);
             case JOptionPane.NO_OPTION:
                 return true;
 
