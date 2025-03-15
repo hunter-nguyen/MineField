@@ -5,6 +5,8 @@ import mvc.Utilities;
 
 public class MineField extends Model {
     public static final int FIELD_LENGTH = 20;
+    private int playerX = 0;
+    private int playerY = 0;
 
     private Plot[][] field;
     private int bombs;
@@ -16,7 +18,17 @@ public class MineField extends Model {
     }
 
     public void move(int deltaX, int deltaY) throws Exception {
-        changed();
+        int newX = playerX + deltaX;
+        int newY = playerY + deltaY;
+
+        if (isValid(newX, newY)) {
+            playerX = newX;
+            playerY = newY;
+            field[playerY][playerX].setIsVisited();
+            changed();
+        } else {
+            throw new Exception("move out of bounds");
+        }
     }
 
     public void initializeField(int rows, int cols){
