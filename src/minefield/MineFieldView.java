@@ -1,16 +1,12 @@
 package minefield;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-
-
 import mvc.Model;
 import mvc.View;
 
+import java.awt.*;
+
 public class MineFieldView extends View {
-    
+
     private int TILE_SIZE = 12;
 
     @Override
@@ -25,13 +21,17 @@ public class MineFieldView extends View {
         int rows = model.getField().length;
         int cols = model.getField()[0].length;
         setPreferredSize(new Dimension(cols * TILE_SIZE, rows * TILE_SIZE));
-
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         MineField mineField = (MineField) model;
+
+        Dimension size = this.getSize();
+        TILE_SIZE = (int) Math.min(size.getWidth() / mineField.getField().length, size.getHeight() / mineField.getField()[0].length);
+
         Plot[][] field = mineField.getField();
 
         for (int row = 0; row < field.length; row++) {
@@ -75,13 +75,13 @@ public class MineFieldView extends View {
                 }
             }
 
-                
+
         } else {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
             g.setColor(Color.BLACK);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
-    
+
 
             g.setColor(Color.BLACK);
             g.drawString("?", x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
