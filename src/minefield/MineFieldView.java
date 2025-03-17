@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 
 import mvc.Model;
 import mvc.View;
@@ -37,12 +36,12 @@ public class MineFieldView extends View {
 
         for (int row = 0; row < field.length; row++) {
             for (int col = 0; col < field[row].length; col++) {
-                drawTile(g, field[row][col], row, col);
+                drawTile(g, field[row][col], row, col, mineField);
             }
         }
     }
 
-    private void drawTile(Graphics g, Plot plot, int row, int col) {
+    private void drawTile(Graphics g, Plot plot, int row, int col, MineField mineField) {
         int x = col * TILE_SIZE;
         int y = row * TILE_SIZE;
 
@@ -57,14 +56,25 @@ public class MineFieldView extends View {
         if (plot.isVisited()) {
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-            g.setColor(Color.BLUE);
+            g.setColor(Color.BLACK);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
 
             int bombCount = plot.getAdjacentBombs();
-            if (bombCount > 0) {
-                g.setColor(Color.WHITE);
-                g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+            if(plot.hasBomb()){
+                g.setColor(Color.RED);
+                g.drawString("B",x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3 );
             }
+            else {
+                if(col == mineField.xCoord() && row == mineField.yCoord()){
+                    g.setColor(Color.BLUE);
+                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+                }
+                else{
+                    g.setColor(Color.WHITE);
+                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+                }
+            }
+
                 
         } else {
             g.setColor(Color.GRAY);
@@ -77,10 +87,13 @@ public class MineFieldView extends View {
             g.drawString("?", x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
         }
 
+
         if(plot.isGoal()){
             g.setColor(Color.GREEN);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
         }
+
+
 
     }
 }

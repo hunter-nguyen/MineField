@@ -74,4 +74,12 @@ public class MineField extends Model {
     public Plot[][] getField(){
         return field;
     }
+
+    public int xCoord(){
+        return playerX;
+    }
+
+    public int yCoord(){
+        return playerY;
+    }
 }
