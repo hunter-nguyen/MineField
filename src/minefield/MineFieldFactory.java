@@ -5,8 +5,6 @@ import mvc.Command;
 import mvc.Model;
 import mvc.View;
 
-import minefield.Heading;
-
 public class MineFieldFactory implements AppFactory {
 
     public Model makeModel() {
@@ -18,8 +16,8 @@ public class MineFieldFactory implements AppFactory {
     }
 
     public String[] getEditCommands() {
-        return new String[] { "North", "South", "East", "West",
-                "North-East", "North-West", "South-East", "South-West" };
+        return new String[] { "North", "South", "West", "East",
+                "North-West", "North-East", "South-West", "South-East" };
     }
 
     public Command makeEditCommand(Model model, String type, Object source) {
