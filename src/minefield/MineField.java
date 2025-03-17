@@ -53,13 +53,11 @@ public class MineField extends Model {
 
             if(!field[row][col].hasBomb() && !(row == 0 && col == 0) && !(row == FIELD_LENGTH-1 && col == FIELD_LENGTH-1)){
                 field[row][col].setHasBomb();
-                System.out.println("There is a bomb at row: " + row + " and col " +  col);
                 bombs--;
                 for (int i = row - 1; i <= row + 1; i++) {
                     for (int j = col - 1; j <= col + 1; j++) {
                         if (isValid(i, j) && !(i == row && j == col)) {
                             field[i][j].addAdjacentBomb();
-                            System.out.println("The amount of adjacent bombs at row: " + i + " and col " +  j + " are " + field[i][j].getAdjacentBombs());
                         }
                     }
                 }
