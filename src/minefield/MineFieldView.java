@@ -12,14 +12,19 @@ public class MineFieldView extends View {
     @Override
     public void setModel(Model newModel) {
         super.setModel(newModel);
-        //initView();
+        initView(newModel);
         repaint();
     }
 
-    public MineFieldView(MineField model) {
+    public MineFieldView(Model model) {
         super(model);
-        int rows = model.getField().length;
-        int cols = model.getField()[0].length;
+        initView(model);
+    }
+
+    private void initView(Model model) {
+        MineField field = (MineField) model;
+        int rows = field.getField().length;
+        int cols = field.getField()[0].length;
         setPreferredSize(new Dimension(cols * TILE_SIZE, rows * TILE_SIZE));
     }
 
