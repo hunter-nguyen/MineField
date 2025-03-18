@@ -22,6 +22,15 @@ public class MineField extends Model {
         int newY = playerY + deltaY;
 
         if (isValid(newX, newY)) {
+            if (field[newY][newX].hasBomb()) {
+                throw new MineHitException("Game Over! You stepped on a mine.");
+            }
+
+            if (field[newY][newX].isGoal()) {
+                throw new GoalReachedException("Congratulations! You've reached the goal!");
+            }
+
+            // Update player's position
             playerX = newX;
             playerY = newY;
             field[playerY][playerX].setIsVisited();
@@ -31,7 +40,7 @@ public class MineField extends Model {
         }
     }
 
-    public void initializeField(int rows, int cols){
+    public void initializeField(int rows, int cols) {
         field = new Plot[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -40,18 +49,19 @@ public class MineField extends Model {
         }
 
         field[0][0].setIsVisited();
-        field[rows-1][cols-1].setIsGoal();
+        field[rows - 1][cols - 1].setIsGoal();
     }
 
-    public void placeBombs(Plot[][]field){
+    public void placeBombs(Plot[][] field) {
         int totalTiles = field.length * field[0].length;
-        bombs = (int) ((totalTiles/100.0) * 20);
+        bombs = (int) ((totalTiles / 100.0) * 20);
 
-        while(bombs > 0){
+        while (bombs > 0) {
             int row = Utilities.rng.nextInt(FIELD_LENGTH);
             int col = Utilities.rng.nextInt(FIELD_LENGTH);
 
-            if(!field[row][col].hasBomb() && !(row == 0 && col == 0) && !(row == FIELD_LENGTH-1 && col == FIELD_LENGTH-1)){
+            if (!field[row][col].hasBomb() && !(row == 0 && col == 0)
+                    && !(row == FIELD_LENGTH - 1 && col == FIELD_LENGTH - 1)) {
                 field[row][col].setHasBomb();
                 bombs--;
                 for (int i = row - 1; i <= row + 1; i++) {
@@ -69,15 +79,15 @@ public class MineField extends Model {
         return row >= 0 && row < field.length && col >= 0 && col < field[0].length;
     }
 
-    public Plot[][] getField(){
+    public Plot[][] getField() {
         return field;
     }
 
-    public int xCoord(){
+    public int xCoord() {
         return playerX;
     }
 
-    public int yCoord(){
+    public int yCoord() {
         return playerY;
     }
 }
