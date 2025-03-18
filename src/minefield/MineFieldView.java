@@ -69,8 +69,13 @@ public class MineFieldView extends View {
                 g.drawString("B", x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
             } else {
                 int bombCount = plot.getAdjacentBombs();
-                g.setColor(Color.WHITE);
-                g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+                if (col == mineField.xCoord() && row == mineField.yCoord()) {
+                    g.setColor(Color.BLUE);
+                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+                } else {
+                    g.setColor(Color.WHITE);
+                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
+                }
             }
         } else {
             g.setColor(Color.GRAY);
