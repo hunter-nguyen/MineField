@@ -27,10 +27,14 @@ public class MineField extends Model {
             field[playerY][playerX].setIsVisited();
 
             if (field[newY][newX].hasBomb()) {
+                field[newY][newX].setIsVisited();
+                changed();
                 throw new MineHitException("Game Over! You stepped on a mine.");
             }
 
             if (field[newY][newX].isGoal()) {
+                field[newY][newX].setIsVisited();
+                changed();
                 throw new GoalReachedException("Congratulations! You've reached the goal!");
             }
 

@@ -4,7 +4,6 @@ import mvc.Model;
 import mvc.View;
 
 import java.awt.*;
-import javax.swing.JOptionPane;
 
 public class MineFieldView extends View {
 
@@ -65,26 +64,19 @@ public class MineFieldView extends View {
             g.setColor(Color.BLACK);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
 
-            int bombCount = plot.getAdjacentBombs();
             if (plot.hasBomb()) {
                 g.setColor(Color.RED);
                 g.drawString("B", x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
             } else {
-                if (col == mineField.xCoord() && row == mineField.yCoord()) {
-                    g.setColor(Color.BLUE);
-                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
-                } else {
-                    g.setColor(Color.WHITE);
-                    g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
-                }
+                int bombCount = plot.getAdjacentBombs();
+                g.setColor(Color.WHITE);
+                g.drawString(String.valueOf(bombCount), x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
             }
-
         } else {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
             g.setColor(Color.BLACK);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
-
             g.setColor(Color.BLACK);
             g.drawString("?", x + TILE_SIZE / 3, y + (2 * TILE_SIZE) / 3);
         }
@@ -93,14 +85,5 @@ public class MineFieldView extends View {
             g.setColor(Color.GREEN);
             g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
         }
-
-    }
-
-    public void showGameOver(String message) {
-        JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void showGoalReached(String message) {
-        JOptionPane.showMessageDialog(this, message, "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
     }
 }
