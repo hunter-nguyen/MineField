@@ -22,6 +22,10 @@ public class MineField extends Model {
         int newY = playerY + deltaY;
 
         if (isValid(newX, newY)) {
+            playerX = newX;
+            playerY = newY;
+            field[playerY][playerX].setIsVisited();
+
             if (field[newY][newX].hasBomb()) {
                 throw new MineHitException("Game Over! You stepped on a mine.");
             }
@@ -30,13 +34,9 @@ public class MineField extends Model {
                 throw new GoalReachedException("Congratulations! You've reached the goal!");
             }
 
-            // Update player's position
-            playerX = newX;
-            playerY = newY;
-            field[playerY][playerX].setIsVisited();
             changed();
         } else {
-            throw new Exception("move out of bounds");
+            throw new Exception("Move out of bounds");
         }
     }
 
