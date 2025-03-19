@@ -7,6 +7,7 @@ public class MineField extends Model {
     public static final int FIELD_LENGTH = 20;
     private int playerX = 0;
     private int playerY = 0;
+    private boolean gameOver = false;
 
     private Plot[][] field;
     private int bombs;
@@ -18,6 +19,10 @@ public class MineField extends Model {
     }
 
     public void move(int deltaX, int deltaY) throws Exception {
+        if (gameOver) {
+            throw new Exception("Game is over! Cannot move.");
+        }
+
         int newX = playerX + deltaX;
         int newY = playerY + deltaY;
 
@@ -28,12 +33,14 @@ public class MineField extends Model {
 
             if (field[newY][newX].hasBomb()) {
                 field[newY][newX].setIsVisited();
+                gameOver = true;
                 changed();
                 throw new MineHitException("Game Over! You stepped on a mine.");
             }
 
             if (field[newY][newX].isGoal()) {
                 field[newY][newX].setIsVisited();
+                gameOver = true;
                 changed();
                 throw new GoalReachedException("Congratulations! You've reached the goal!");
             }
@@ -93,5 +100,9 @@ public class MineField extends Model {
 
     public int yCoord() {
         return playerY;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }

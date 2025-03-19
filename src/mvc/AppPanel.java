@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import minefield.MineHitException;
+import minefield.GoalReachedException;
+import minefield.MineField;
 
 public class AppPanel extends JPanel implements Subscriber, ActionListener {
     public static int FRAME_WIDTH = 500;
@@ -36,9 +39,9 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(Utilities.makeMenu("File", new String[]{"New", "Open", "Save", "Save As", "Quit"}, this));
+        menuBar.add(Utilities.makeMenu("File", new String[] { "New", "Open", "Save", "Save As", "Quit" }, this));
         menuBar.add(Utilities.makeMenu("Edit", factory.getEditCommands(), this));
-        menuBar.add(Utilities.makeMenu("Help", new String[]{"About", "Help"}, this));
+        menuBar.add(Utilities.makeMenu("Help", new String[] { "About", "Help" }, this));
         return menuBar;
     }
 
@@ -95,12 +98,21 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
                     break;
 
                 default:
-                    Command editCommand = factory.makeEditCommand(model, command, actionEvent.getSource());
-                    if (editCommand == null) {
-                        throw new Exception("Unknown command: " + command);
+                    if (model instanceof MineField && ((MineField) model).isGameOver()) {
+                        JOptionPane.showMessageDialog(this, "Game is over! Cannot move.", "Game Over",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
-                    editCommand.execute();
+
+                    Command editCommand = factory.makeEditCommand(model, command, actionEvent.getSource());
+                    if (editCommand != null) {
+                        editCommand.execute();
+                    }
             }
+        } catch (MineHitException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Game Over", JOptionPane.ERROR_MESSAGE);
+        } catch (GoalReachedException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             handleException(e);
         }
@@ -111,6 +123,6 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
     }
 
     public void update() {
-
+        view.repaint();
     }
 }
