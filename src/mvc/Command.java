@@ -7,5 +7,5 @@ public abstract class Command {
         this.model = model;
     }
 
-    protected abstract void execute() throws Exception;
+    public abstract void execute() throws Exception;
 }

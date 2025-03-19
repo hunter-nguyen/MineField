@@ -12,7 +12,7 @@ public class MoveCommand extends Command {
     }
 
     @Override
-    protected void execute() throws Exception {
+    public void execute() throws Exception {
         MineField field = (MineField) model;
 
         int deltaX = 0;
