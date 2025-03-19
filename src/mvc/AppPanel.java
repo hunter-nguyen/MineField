@@ -97,12 +97,6 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
                     break;
 
                 default:
-                    if (model instanceof MineField && ((MineField) model).isGameOver()) {
-                        JOptionPane.showMessageDialog(this, "Game is over! Cannot move.", "Game Over",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
                     Command editCommand = factory.makeEditCommand(model, command, actionEvent.getSource());
                     if (editCommand != null) {
                         editCommand.execute();
