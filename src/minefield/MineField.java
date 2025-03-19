@@ -33,6 +33,7 @@ public class MineField extends Model {
 
             if (field[newY][newX].hasBomb()) {
                 field[newY][newX].setIsVisited();
+                uncoverBombs();
                 gameOver = true;
                 changed();
                 throw new MineHitException("Game Over! You stepped on a mine.");
@@ -51,6 +52,16 @@ public class MineField extends Model {
         }
     }
 
+    private void uncoverBombs() {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                if (field[i][j].hasBomb()) {
+                    field[i][j].setIsVisited();
+                }
+            }
+        }
+    }
+
     public void initializeField(int rows, int cols) {
         field = new Plot[rows][cols];
         for (int i = 0; i < rows; i++) {
@@ -65,7 +76,7 @@ public class MineField extends Model {
 
     public void placeBombs(Plot[][] field) {
         int totalTiles = field.length * field[0].length;
-        bombs = (int) ((totalTiles / 100.0) * 20);
+        bombs = (int) ((totalTiles / 100.0) * 5);
 
         while (bombs > 0) {
             int row = Utilities.rng.nextInt(FIELD_LENGTH);
