@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import minefield.MineHitException;
-import minefield.GoalReachedException;
-import minefield.MineField;
 
 public class AppPanel extends JPanel implements Subscriber, ActionListener {
     public static int FRAME_WIDTH = 500;
@@ -98,21 +95,11 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
                     break;
 
                 default:
-                    if (model instanceof MineField && ((MineField) model).isGameOver()) {
-                        JOptionPane.showMessageDialog(this, "Game is over! Cannot move.", "Game Over",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
                     Command editCommand = factory.makeEditCommand(model, command, actionEvent.getSource());
                     if (editCommand != null) {
                         editCommand.execute();
                     }
             }
-        } catch (MineHitException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Game Over", JOptionPane.ERROR_MESSAGE);
-        } catch (GoalReachedException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             handleException(e);
         }
