@@ -1,6 +1,8 @@
 package minefield;
 
-public class Plot {
+import java.io.Serializable;
+
+public class Plot implements Serializable {
     private boolean isVisited;
     private boolean hasBomb;
     private int bombsAdjacent;
