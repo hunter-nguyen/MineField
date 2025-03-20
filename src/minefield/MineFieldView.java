@@ -22,30 +22,28 @@ public class MineFieldView extends View {
     }
 
     private void initView(Model model) {
-        MineField field = (MineField) model;
-        int rows = field.getField().length;
-        int cols = field.getField()[0].length;
-        setPreferredSize(new Dimension(cols * TILE_SIZE, rows * TILE_SIZE));
-    }
+    setPreferredSize(new Dimension(MineField.FIELD_LENGTH * TILE_SIZE,
+                                  MineField.FIELD_LENGTH * TILE_SIZE));
+}
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         MineField mineField = (MineField) model;
 
+        int rows = MineField.FIELD_LENGTH;
+        int cols = MineField.FIELD_LENGTH;
+
         Dimension size = this.getSize();
-        TILE_SIZE = (int) Math.min(size.getWidth() / mineField.getField().length,
-                size.getHeight() / mineField.getField()[0].length);
+        TILE_SIZE = (int) Math.min(size.getWidth() / rows, size.getHeight() / cols);
 
-        Plot[][] field = mineField.getField();
-
-        for (int row = 0; row < field.length; row++) {
-            for (int col = 0; col < field[row].length; col++) {
-                drawTile(g, field[row][col], row, col, mineField);
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Plot plot = mineField.getPlot(col, row);
+                drawTile(g, plot, row, col, mineField);
             }
         }
-    }
+}
 
     private void drawTile(Graphics g, Plot plot, int row, int col, MineField mineField) {
         int x = col * TILE_SIZE;

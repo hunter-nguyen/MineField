@@ -116,4 +116,11 @@ public class MineField extends Model {
     public boolean isGameOver() {
         return gameOver;
     }
+
+    public Plot getPlot(int x, int y) {
+        if (isValid(x, y)) {
+            return field[y][x];
+        }
+        return null;
+    }
 }
