@@ -51,11 +51,6 @@ public class MineFieldView extends View {
 
         g.setFont(new Font("Arial", Font.BOLD, 8));
 
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-        g.setColor(Color.BLACK);
-        g.drawRect(x, y, TILE_SIZE, TILE_SIZE);
-
         if (plot.isVisited()) {
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(x, y, TILE_SIZE, TILE_SIZE);

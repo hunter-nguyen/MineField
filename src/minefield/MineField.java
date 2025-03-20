@@ -41,6 +41,7 @@ public class MineField extends Model {
 
             if (field[newY][newX].isGoal()) {
                 field[newY][newX].setIsVisited();
+                uncoverBombs();
                 gameOver = true;
                 changed();
                 throw new GoalReachedException("Congratulations! You've reached the goal!");
