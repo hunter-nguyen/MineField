@@ -1,7 +1,5 @@
 package mvc;
 
-import minefield.MineField;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
