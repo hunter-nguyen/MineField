@@ -66,6 +66,6 @@ public class MineFieldFactory implements AppFactory {
     }
 
     public String about() {
-        return "Minefield Game v1.0\nCreated with MVC Framework";
+        return "Minefield Game v1.0\nCreated with MVC Framework\nCreated by Hunter Nguyen, Noah Ruderman, and Raymond Wang";
     }
 }
